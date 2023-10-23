@@ -16,6 +16,7 @@ export default function UserInfo({ user }) {
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
+    console.log(user);
     setIsLoaded(false);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}api/leaderboard/`)
@@ -28,11 +29,12 @@ export default function UserInfo({ user }) {
         setRanking(userFound?.position);*/
       })
       .catch((err) => console.error(err));
-
+    // user.github_username
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}api/submission/all`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Username: `${user?.github_username}`,
+          // Authorization: localStorage.getItem("token"),
         },
       })
       .then((response) => {
@@ -115,19 +117,21 @@ export default function UserInfo({ user }) {
                     hideCursorAfterText={true}
                   ></TypewriterEffect>
                 </Box>
-                <Box alignContent={"center"} height={180} paddingTop={4}>
-                  <TypewriterEffect
-                    textStyle={{
-                      fontWeight: 500,
-                      fontSize: 45,
-                      color: "#efedef",
-                    }}
-                    startDelay={1500}
-                    text={"hello"}
-                    // multiTextDelay={1000}
-                    typeSpeed={100}
-                    hideCursorAfterText={true}
-                  />
+                <Box alignContent={"center"} paddingTop={4}>
+                  <Box height={60}>
+                    <TypewriterEffect
+                      textStyle={{
+                        fontWeight: 500,
+                        fontSize: 45,
+                        color: "#efedef",
+                      }}
+                      startDelay={1500}
+                      text={"hello"}
+                      // multiTextDelay={1000}
+                      typeSpeed={100}
+                      hideCursorAfterText={true}
+                    />
+                  </Box>
                   <TypewriterEffect
                     textStyle={{
                       fontWeight: 800,
@@ -190,7 +194,9 @@ export default function UserInfo({ user }) {
           />
 
           <Container>
-            {userProblemSolved && <ChallengeTable problems={userProblemSolved} />}
+            {userProblemSolved && (
+              <ChallengeTable problems={userProblemSolved} />
+            )}
           </Container>
         </div>
       )}
